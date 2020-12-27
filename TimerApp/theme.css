@@ -8,6 +8,7 @@ body {
   .base-timer {
     position: relative;
     margin: auto;
+    overflow: visible;
   }
   
   .base-timer__svg {
@@ -20,7 +21,7 @@ body {
   }
   
   .base-timer__path-elapsed {
-    stroke-width: 7px;
+    stroke-width: 6px;
     stroke: grey;
   }
   

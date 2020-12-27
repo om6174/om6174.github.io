@@ -19,8 +19,8 @@ const COLOR_CODES = {
     }
 };
 
-const TIME_LIMIT = 5;
-const TIME_LIMIT2 = 3;
+let TIME_LIMIT = 5;
+let TIME_LIMIT2 = 5;
 let currtimePassed = 0;
 let paused = true;
 let currtimeLeft = TIME_LIMIT;
@@ -31,7 +31,7 @@ document.getElementById("app").innerHTML = `
 <div class="base-timer col-11 p-0">
   <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <g class="base-timer__circle">
-      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="43"></circle>
       <path
         stroke-dasharray="283"
         class="base-timer-path-remaining base-timer__path-remaining ${remainingPathColor}"
@@ -54,7 +54,7 @@ document.getElementById("app2").innerHTML = `
 <div class="base-timer col-11 p-0">
   <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <g class="base-timer__circle">
-      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="47"></circle>
       <path
         stroke-dasharray="283"
         class="base-timer-path-remaining base-timer__path-remaining ${remainingPathColor}"
@@ -142,16 +142,30 @@ function startTimer() {
 
 
 function formatTime(time) {
+    const hours = Math.floor(time / 3600);
+    time = time - hours*3600;
     const minutes = Math.floor(time / 60);
+    time = time - minutes*60;
     let seconds = time % 60;
 
     if (seconds < 10) {
         seconds = `0${seconds}`;
     }
 
-    return `${minutes}:${seconds}`;
+    return `${hours}:${minutes}:${seconds}`;
 }
 
+function defaultTime(seconds) {
+    dateObj = new Date(seconds * 1000);
+    hours = dateObj.getUTCHours();
+    minutes = dateObj.getUTCMinutes();
+    seconds = dateObj.getSeconds();
+
+timeString = hours.toString().padStart(2, '0') + ':' + 
+    minutes.toString().padStart(2, '0') + ':' + 
+    seconds.toString().padStart(2, '0');
+    return timeString;
+}
 function setRemainingPathColor(timeLeft) {
     //const { alert, warning, info } = COLOR_CODES;
     if (timeLeft <= COLOR_CODES.alert.threshold) {
@@ -265,5 +279,45 @@ function restartTimer() {
         paused = !paused;
         resumeTimer();
     }
+}
+
+function setMaxTime(element) {
+    let delayTimer = null;
+    clearTimeout(delayTimer);
+    delayTimer = setTimeout(function() {
+    if(element.id=="work"){
+        TIME_LIMIT = getSeconds(element.value);
+        if(currClock == "app"){  
+            currtimeLeft = TIME_LIMIT; 
+            currtimePassed = 0; 
+            restartTimer();
+        }
+        else{
+            document.getElementById('app').querySelectorAll(".base-timer-label")[0].innerHTML = formatTime(
+                TIME_LIMIT
+            );
+        }
+    }
+    else{
+        TIME_LIMIT2 = getSeconds(element.value);
+        if(currClock == "app2"){  
+            currtimeLeft = TIME_LIMIT2;
+            currtimePassed = 0;    
+            restartTimer();
+        }
+        else{
+            document.getElementById('app2').querySelectorAll(".base-timer-label")[0].innerHTML = formatTime(
+                TIME_LIMIT2
+            );
+        }
+    }
+}, 1000);
+}
+
+function getSeconds(stringTime) {
+    var [hr,min,sec] = stringTime.split(':');
+    return (parseInt(hr)*3600)+(parseInt(min)*60)+parseInt(sec)
+
+    
 }
 
