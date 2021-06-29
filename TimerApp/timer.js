@@ -1,5 +1,6 @@
 const FULL_DASH_ARRAY = 283;
-
+var workEnd = new Audio('Audio/worktimeup.mp3');
+var restEnd = new Audio('Audio/resttimeup.mp3');
 const COLOR_CODES = {
     info: {
         color: "green"
@@ -29,8 +30,8 @@ class tomato {
         this.ALERT_THRESHOLD = newval >= 1800 ? 300 : Math.ceil(newval / 6);
     }
 }
-var work = new tomato('app', 10);
-var rest = new tomato('app2', 5);
+var work = new tomato('app', 900);
+var rest = new tomato('app2', 300);
 var activeTimer = {
     currClock: work.id,
     currtimeLeft: work.TIME_LIMIT,
@@ -100,6 +101,7 @@ function onTimesUp() {
     clearInterval(timerInterval);
     const { currClock } = activeTimer
     if (currClock == 'app') {
+        workEnd.play()
         document
             .getElementById(currClock)
             .querySelectorAll(".base-timer-path-remaining")[0]
@@ -117,6 +119,7 @@ function onTimesUp() {
 
     }
     else {
+        restEnd.play();
         document
             .getElementById(currClock)
             .querySelectorAll(".base-timer-path-remaining")[0]
@@ -157,7 +160,7 @@ function startTimer() {
         );
         setCircleDasharray();
 
-        if (activeTimer.currtimeLeft < 0) {
+        if (activeTimer.currtimeLeft <= 0) {
             onTimesUp();
         }
     }, 1000);
@@ -343,10 +346,12 @@ function userInput(element) {
             }
         }
     });
-    if(parseInt(x.join(''))!=0 && x != y)
-    element.value = x.join(':');
+    if(parseInt(x.join(''))>=10 && x != y)
+        element.value = x.join(':');
     else
-    element.value = '00:15:00'
+        element.value = '00:00:10'
+    
     setMaxTime(element);
+
 }
 
