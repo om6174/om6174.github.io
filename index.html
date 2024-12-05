@@ -3,60 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work and Rest Timer</title>
+    <title>Timer Application</title>
     <style>
-        .time-input {
-            width: 50px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
             text-align: center;
         }
-        .time-container {
+
+        h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .timer-input {
             display: flex;
             justify-content: space-between;
-            width: 240px;
+            margin-bottom: 15px;
         }
-        .time-input-container {
-            margin: 10px;
+
+        .timer-input input {
+            width: 70px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .timer-input label {
+            margin-right: 5px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049;
+        }
+
+        .timer-section {
+            margin-top: 30px;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
+        .timer-section h4 {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .notification {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #4CAF50;
+        }
+
+        .alert {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #f44336;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<!-- Work Timer Section -->
-<h3>Work Timer</h3>
-<div class="time-container">
-    <div class="time-input-container">
-        <label for="workHour">Hour</label><br>
-        <input id="workHour" class="time-input" type="number" value="0" min="0" max="23" />
-    </div>
-    <div class="time-input-container">
-        <label for="workMinute">Minute</label><br>
-        <input id="workMinute" class="time-input" type="number" value="0" min="0" max="59" />
-    </div>
-    <div class="time-input-container">
-        <label for="workSecond">Second</label><br>
-        <input id="workSecond" class="time-input" type="number" value="0" min="0" max="59" />
-    </div>
-</div>
-<button id="startWorkTimer">Start Work Timer</button>
+    <div class="container">
+        <h3>Work Timer</h3>
+        
+        <!-- Work Timer Inputs -->
+        <div class="timer-input">
+            <label for="work-hours">Hours:</label>
+            <input type="number" id="work-hours" min="0" value="0">
+            <label for="work-minutes">Minutes:</label>
+            <input type="number" id="work-minutes" min="0" max="59" value="25">
+            <label for="work-seconds">Seconds:</label>
+            <input type="number" id="work-seconds" min="0" max="59" value="0">
+        </div>
 
-<!-- Rest Timer Section -->
-<h3>Rest Timer</h3>
-<div class="time-container">
-    <div class="time-input-container">
-        <label for="restHour">Hour</label><br>
-        <input id="restHour" class="time-input" type="number" value="0" min="0" max="23" />
-    </div>
-    <div class="time-input-container">
-        <label for="restMinute">Minute</label><br>
-        <input id="restMinute" class="time-input" type="number" value="0" min="0" max="59" />
-    </div>
-    <div class="time-input-container">
-        <label for="restSecond">Second</label><br>
-        <input id="restSecond" class="time-input" type="number" value="0" min="0" max="59" />
-    </div>
-</div>
-<button id="startRestTimer">Start Rest Timer</button>
+        <div class="timer-section">
+            <h4>Work Timer</h4>
+            <div id="work-timer-display">00:00:00</div>
+            <button id="start-work-timer">Start Work Timer</button>
+            <button id="reset-work-timer">Reset Work Timer</button>
+        </div>
 
-<script src="timer.js"></script>
+        <div class="alert hidden" id="work-alert">Time's up! Please take a break.</div>
+
+        <h3>Rest Timer</h3>
+
+        <!-- Rest Timer Inputs -->
+        <div class="timer-input">
+            <label for="rest-hours">Hours:</label>
+            <input type="number" id="rest-hours" min="0" value="0">
+            <label for="rest-minutes">Minutes:</label>
+            <input type="number" id="rest-minutes" min="0" max="59" value="5">
+            <label for="rest-seconds">Seconds:</label>
+            <input type="number" id="rest-seconds" min="0" max="59" value="0">
+        </div>
+
+        <div class="timer-section">
+            <h4>Rest Timer</h4>
+            <div id="rest-timer-display">00:05:00</div>
+            <button id="start-rest-timer">Start Rest Timer</button>
+            <button id="reset-rest-timer">Reset Rest Timer</button>
+        </div>
+
+        <div class="alert hidden" id="rest-alert">Time's up! Get back to work!</div>
+
+        <div class="notification hidden" id="notification-message">You can now take a break or resume work!</div>
+    </div>
+
+    <script>
+        // Work Timer Logic
+        let workTimer;
+        let workTimeRemaining;
+
+        // Rest Timer Logic
+        let restTimer;
+        let restTimeRemaining;
+
+        // Notification Logic
+        function notifyUser(message) {
+            if (Notification.permission === 'granted') {
+                new Notification(message);
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        new Notification(message);
+                    }
+                });
+            }
+        }
+
+        // Work Timer Start
+        document.getElementById("start-work-timer").addEventListener("click", function() {
+            const hours = parseInt(document.getElementById("work-hours").value);
+            const minutes = parseInt(document.getElementById("work-minutes").value);
+            const seconds = parseInt(document.getElementById("work-seconds").value);
+            workTimeRemaining = hours * 3600 + minutes * 60 + seconds;
+
+            if (workTimer) clearInterval(workTimer);
+
+            workTimer = setInterval(function() {
+                if (workTimeRemaining <= 0) {
+                    clearInterval(workTimer);
+                    document.getElementById("work-alert").classList.remove("hidden");
+                    notifyUser("Work timer is up! Please take a break.");
+                } else {
+                    workTimeRemaining--;
+                    let h = Math.floor(workTimeRemaining / 3600);
+                    let m = Math.floor((workTimeRemaining % 3600) / 60);
+                    let s = workTimeRemaining % 60;
+                    document.getElementById("work-timer-display").textContent = `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+                }
+            }, 1000);
+        });
+
+        // Rest Timer Start
+        document.getElementById("start-rest-timer").addEventListener("click", function() {
+            const hours = parseInt(document.getElementById("rest-hours").value);
+            const minutes = parseInt(document.getElementById("rest-minutes").value);
+            const seconds = parseInt(document.getElementById("rest-seconds").value);
+            restTimeRemaining = hours * 3600 + minutes * 60 + seconds;
+
+            if (restTimer) clearInterval(restTimer);
+
+            restTimer = setInterval(function() {
+                if (restTimeRemaining <= 0) {
+                    clearInterval(restTimer);
+                    document.getElementById("rest-alert").classList.remove("hidden");
+                    notifyUser("Rest timer is up! Get back to work.");
+                } else {
+                    restTimeRemaining--;
+                    let h = Math.floor(restTimeRemaining / 3600);
+                    let m = Math.floor((restTimeRemaining % 3600) / 60);
+                    let s = restTimeRemaining % 60;
+                    document.getElementById("rest-timer-display").textContent = `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+                }
+            }, 1000);
+        });
+
+        // Reset Work Timer
+        document.getElementById("reset-work-timer").addEventListener("click", function() {
+            clearInterval(workTimer);
+            document.getElementById("work-timer-display").textContent = "00:00:00";
+            document.getElementById("work-alert").classList.add("hidden");
+        });
+
+        // Reset Rest Timer
+        document.getElementById("reset-rest-timer").addEventListener("click", function() {
+            clearInterval(restTimer);
+            document.getElementById("rest-timer-display").textContent = "00:05:00";
+            document.getElementById("rest-alert").classList.add("hidden");
+        });
+    </script>
+
 </body>
 </html>
