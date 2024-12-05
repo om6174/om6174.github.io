@@ -66,17 +66,7 @@
         border: 1px solid #ccc;
         border-radius: 5px;
     }
-    
-    button {
-        background-color: #4CAF50;
-        color: white;
-        cursor: pointer;
-    }
-    
-    button:hover {
-        background-color: #45a049;
-    }
-    
+        
     /* Action Buttons */
     .actions {
         display: flex;
@@ -193,6 +183,39 @@
   .button-54 {
     padding: 0.25em 0.75em;
   }
+}
+
+        label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+select {
+    cursor: pointer;
 }
 
     </style>
@@ -363,11 +386,11 @@ function startListening() {
                 reminderDiv.innerHTML = `
                     <h3>${reminder.name} - ${reminder.timer} minute(s)</h3>
                     <div class="actions">
-                        <button  class="button-54" onclick="startTimer(${index})">Start Timer</button>
+                        <button  class="button-54" onclick="startTimer(${index})">Start</button>
                         <button  class="button-54" onclick="editReminder(${index})">Edit</button>
                         <button  class="button-54" onclick="deleteReminder(${index})">Delete</button>
                         <button  class="button-54" onclick="startLoop(${index})">Repeat</button>
-                        <button  class="button-54" onclick="endLoop(${index})">End Loop</button>
+                        <button  class="button-54" onclick="endLoop(${index})">End</button>
                     </div>
                 `;
                 reminderList.appendChild(reminderDiv);
