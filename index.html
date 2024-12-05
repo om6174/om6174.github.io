@@ -64,6 +64,72 @@
         #export-btn:hover, #import-btn:hover {
             background-color: #1976D2;
         }
+
+        .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.start {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.start:hover {
+    background-color: #45a049;
+}
+
+.edit {
+    background-color: #2196F3;
+    color: white;
+}
+
+.edit:hover {
+    background-color: #0b7dda;
+}
+
+.delete {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete:hover {
+    background-color: #d32f2f;
+}
+
+.loop {
+    background-color: #ff9800;
+    color: white;
+}
+
+.loop:hover {
+    background-color: #fb8c00;
+}
+
+.end-loop {
+    background-color: #9c27b0;
+    color: white;
+}
+
+.end-loop:hover {
+    background-color: #7b1fa2;
+}
+
     </style>
 </head>
 <body>
@@ -126,11 +192,11 @@
                     <p>Timer: ${reminder.timer} minute(s)</p>
                     <p>Sound: ${reminder.sound}</p>
                     <div class="actions">
-                        <button onclick="startTimer(${index})">Start Timer</button>
-                        <button onclick="editReminder(${index})">Edit</button>
-                        <button onclick="deleteReminder(${index})">Delete</button>
-                        <button onclick="startLoop(${index})">Loop</button>
-                        <button onclick="endLoop(${index})">End Loop</button>
+                        <button class="btn start" onclick="startTimer(${index})">Start Timer</button>
+                        <button class="btn edit" onclick="editReminder(${index})">Edit</button>
+                        <button class="btn delete" onclick="deleteReminder(${index})">Delete</button>
+                        <button class="btn loop" onclick="startLoop(${index})">Loop</button>
+                        <button class="btn end-loop" onclick="endLoop(${index})">End Loop</button>
                     </div>
                 `;
                 reminderList.appendChild(reminderDiv);
