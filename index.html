@@ -240,7 +240,7 @@
 
         // Function to speak text using the selected voice
         function speak() {
-            const utterance = new SpeechSynthesisUtterance('This is a test sentence');
+            const utterance = new SpeechSynthesisUtterance("Don't forget to drink water");
             const selectedVoice = document.getElementById('voiceSelect').value;
             utterance.voice = voices[selectedVoice];
             speechSynthesis.speak(utterance);
@@ -309,7 +309,7 @@ function startListening() {
         modal.style.display = 'flex';
 
         // Use SpeechSynthesis API to read out the reminder name
-        const utterance = new SpeechSynthesisUtterance(title);
+        const utterance = new SpeechSynthesisUtterance(`Don't forget to {title}`);
 
 // Get available voices
 const voices = speechSynthesis.getVoices();
@@ -318,7 +318,7 @@ console.log(voices)
 utterance.voice = voices[0];
 
 // Speak the reminder
-        speechSynthesis.speak(`Don't forget to {utterance}`);
+        speechSynthesis.speak(utterence);
         
         // Close the modal when clicking outside
         modal.addEventListener('click', function (event) {
