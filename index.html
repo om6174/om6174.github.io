@@ -205,8 +205,9 @@
             
             <label for="sound">Select Sound:</label>
             <select id="sound">
-                <option value="TimerApp/Audio/resttimeup.mp3">Sound 1</option>
-                <option value="TimerApp/Audio/worktimeup.mp3">Sound 2</option>
+                <option value="TimerApp/Audio/resttimeup.mp3">Beep</option>
+                <option value="TimerApp/Audio/worktimeup.mp3">Flute</option>
+                <option value="TimerApp/Audio/pop.wav">POP</option>
             </select>
 
             <button onclick="addReminder()">Add Reminder</button>
@@ -220,32 +221,7 @@
         <input type="file" id="import-btn" onchange="importReminders(event)" style="display: none;" />
         <button onclick="document.getElementById('import-btn').click();">Import Reminders</button>
     </div>
- <h1>Speech Synthesis Voice Test</h1>
-    <select id="voiceSelect"></select>
-    <button onclick="speak()">Speak</button>
 
-    <script>
-        // Get available voices when the page is loaded
-        let voices = [];
-        speechSynthesis.onvoiceschanged = () => {
-            voices = speechSynthesis.getVoices();
-            const voiceSelect = document.getElementById('voiceSelect');
-            voices.forEach((voice, index) => {
-                const option = document.createElement('option');
-                option.textContent = `${voice.name} (${voice.lang})`;
-                option.value = index;
-                voiceSelect.appendChild(option);
-            });
-        };
-
-        // Function to speak text using the selected voice
-        function speak() {
-            const utterance = new SpeechSynthesisUtterance("Don't forget to drink water");
-            const selectedVoice = document.getElementById('voiceSelect').value;
-            utterance.voice = voices[selectedVoice];
-            speechSynthesis.speak(utterance);
-        }
-    </script>
     <script>
         let loopIntervals = {}; // To store loop interval IDs by reminder index
         let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
