@@ -173,22 +173,46 @@
         let loopIntervals = {}; // To store loop interval IDs by reminder index
         let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
         // Initialize the SpeechRecognition API
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = "en-US";
-recognition.interimResults = false;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition;
 
-// Start listening for voice commands
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';  // Set language
+    recognition.interimResults = false;  // Don't show interim results (final result only)
+    recognition.maxAlternatives = 1;     // Only show the best result
+
+    // This is needed to track what happens when recognition starts
+    recognition.onstart = function () {
+        console.log("Voice recognition started.");
+    };
+
+    // Handle result after recognition finishes
+    recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript.toLowerCase();
+        console.log("This was heard:", transcript);  // Should log the recognized command
+        processVoiceCommand(transcript);
+    };
+
+    // Handle errors in speech recognition
+    recognition.onerror = function (event) {
+        console.error("Error occurred in recognition: ", event.error);
+    };
+
+    // Handle when recognition ends
+    recognition.onend = function () {
+        console.log("Voice recognition ended.");
+    };
+} else {
+    alert("Speech Recognition is not supported in your browser.");
+}
+
+// Start listening function
 function startListening() {
     recognition.start();
     alert("Listening for commands...");
+    console.log("Listening for commands...");
 }
-
-// Handle speech recognition result
-recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript.toLowerCase();
-    console.log("this was heard", transcript)
-    processVoiceCommand(transcript);
-};
         
         function requestNotificationPermission() {
     if ("Notification" in window) {
