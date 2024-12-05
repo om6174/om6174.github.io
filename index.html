@@ -309,7 +309,7 @@ function startListening() {
         modal.style.display = 'flex';
 
         // Use SpeechSynthesis API to read out the reminder name
-        const utterance = new SpeechSynthesisUtterance(`Don't forget to {title}`);
+        const utterance = new SpeechSynthesisUtterance(`Don't forget to ${title}`);
 
 // Get available voices
 const voices = speechSynthesis.getVoices();
