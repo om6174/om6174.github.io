@@ -144,9 +144,47 @@
 #voiceCommandButton.listening {
     background-color: violet;
 }
+
+            /* Basic modal styling */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align at the top */
+        padding-top: 20px; /* Space from the top */
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 80%; /* You can adjust the width of the modal */
+        max-width: 500px;
+        text-align: center;
+    }
+
+    .modal-content h2 {
+        margin-top: 0;
+    }
     </style>
 </head>
 <body>
+    <!-- Modal structure -->
+<div id="custom-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2 id="modal-title"></h2>
+        <p id="modal-body"></p>
+    </div>
+</div>
+
+
     <div class="container">
         <h1>Reminder App</h1>
     <button id="voiceCommandButton" onclick="startListening()">Voice Command</button>
@@ -239,7 +277,37 @@ function startListening() {
 
 }
 
+           function showCustomModal(title, body) {
+        const modal = document.getElementById('custom-modal');
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-body').textContent = body;
+        modal.style.display = 'flex';
+
+        // Use SpeechSynthesis API to read out the reminder name
+        const utterance = new SpeechSynthesisUtterance(title);
+
+// Get available voices
+const voices = speechSynthesis.getVoices();
+console.log(voices)
+// Set the voice to a female voice (if available)
+utterance.voice = voices.find(voice => voice.gender === 'female') || voices[0];
+
+// Speak the reminder
+        speechSynthesis.speak(utterance);
         
+        // Close the modal when clicking outside
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById('custom-modal');
+        modal.style.display = 'none';
+    }
         function requestNotificationPermission() {
     if ("Notification" in window) {
         Notification.requestPermission().then(permission => {
@@ -300,9 +368,8 @@ function startTimer(index) {
 
     if (Notification.permission === "granted") {
         setTimeout(() => {
-            const notification = new Notification(reminder.name, {
-                body: "Time's up!",
-            });
+            showCustomModal(reminder.name, "Time's up!");
+
             const sound = new Audio(reminder.sound);
             sound.play();
         }, reminder.timer * 60000); // Convert minutes to milliseconds
