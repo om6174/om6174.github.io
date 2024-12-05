@@ -414,7 +414,7 @@ function endLoop(index) {
         const reminderName = command.match(startRegex)[1];
         const index = reminders.findIndex((r) => r.name.toLowerCase() === reminderName.toLowerCase());
         if (index !== -1) {
-            startReminder(index);  // Start once
+            startTimer(index);  // Start once
         } else {
             alert(`Reminder "${reminderName}" not found.`);
         }
@@ -434,7 +434,7 @@ function endLoop(index) {
         const reminderName = command.match(endLoopRegex)[1];
         const index = reminders.findIndex((r) => r.name.toLowerCase() === reminderName.toLowerCase());
         if (index !== -1) {
-            stopReminder(index);  // Stop loop
+            endLoop(index);  // Stop loop
         } else {
             alert(`Reminder "${reminderName}" not found.`);
         }
