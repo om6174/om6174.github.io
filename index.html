@@ -302,7 +302,6 @@ function startTimer(index) {
         setTimeout(() => {
             const notification = new Notification(reminder.name, {
                 body: "Time's up!",
-                icon: "icon.png", // Optional: Add your icon URL here
             });
             const sound = new Audio(reminder.sound);
             sound.play();
