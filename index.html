@@ -98,6 +98,9 @@
     </div>
 
     <script>
+        let loopIntervals = {}; // To store loop interval IDs by reminder index
+        let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
+
         function requestNotificationPermission() {
     if ("Notification" in window) {
         Notification.requestPermission().then(permission => {
@@ -109,7 +112,6 @@
         alert("Your browser does not support notifications.");
     }
 }
-        let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
 
         // Renders all reminders to the page
         function renderReminders() {
@@ -127,6 +129,8 @@
                         <button onclick="startTimer(${index})">Start Timer</button>
                         <button onclick="editReminder(${index})">Edit</button>
                         <button onclick="deleteReminder(${index})">Delete</button>
+                        <button onclick="startLoop(${index})">Loop</button>
+                        <button onclick="endLoop(${index})">End Loop</button>
                     </div>
                 `;
                 reminderList.appendChild(reminderDiv);
@@ -168,6 +172,38 @@ function startTimer(index) {
         requestNotificationPermission();
     } else {
         alert("Notifications are blocked. Enable them in your browser settings to use this feature.");
+    }
+}
+
+        // Start a reminder timer in a loop
+function startLoop(index) {
+    const reminder = reminders[index];
+    if (Notification.permission !== "granted") {
+        alert("Please enable notifications to use this feature.");
+        return;
+    }
+
+    const loopId = setInterval(() => {
+        const notification = new Notification(reminder.name, {
+            body: `Hey! It's time to: ${reminder.name}`,
+            icon: "icon.png",
+        });
+        const sound = new Audio(reminder.sound);
+        sound.play();
+    }, reminder.timer * 60000); // Convert minutes to milliseconds
+
+    loopIntervals[index] = loopId; // Store loop interval
+    alert(`Loop started for: ${reminder.name}`);
+}
+
+// Stop a looping reminder
+function endLoop(index) {
+    if (loopIntervals[index]) {
+        clearInterval(loopIntervals[index]);
+        delete loopIntervals[index]; // Remove from tracking
+        alert(`Loop ended for: ${reminder.name}`);
+    } else {
+        alert("No active loop for this reminder.");
     }
 }
 
