@@ -135,7 +135,13 @@
 <body>
     <div class="container">
         <h1>Reminder App</h1>
+        <button onclick="startListening()">Voice Command</button>
+    <ul>
+        <li><strong>Start [Reminder Name]</strong> – create a one-time reminder.</li>
+        <li><strong>Repeat [Reminder Name]</strong> – Start a repeating reminder.</li>
 
+        <li><strong>Stop [Reminder Name]</strong> – Stop a repeating reminder.</li>
+    </ul>
         <!-- Add New Reminder Form -->
         <div>
             <h3>Add New Reminder</h3>
@@ -195,7 +201,7 @@
                         <button class="btn start" onclick="startTimer(${index})">Start Timer</button>
                         <button class="btn edit" onclick="editReminder(${index})">Edit</button>
                         <button class="btn delete" onclick="deleteReminder(${index})">Delete</button>
-                        <button class="btn loop" onclick="startLoop(${index})">Loop</button>
+                        <button class="btn loop" onclick="startLoop(${index})">Repeat</button>
                         <button class="btn end-loop" onclick="endLoop(${index})">End Loop</button>
                     </div>
                 `;
@@ -330,6 +336,51 @@ function endLoop(index) {
 
             reader.readAsText(file);
         }
+
+      function processVoiceCommand(command) {
+    const startRegex = /start (.+)/;
+    const loopRegex = /repeat (.+)/;
+    const endLoopRegex = /stop (.+)/;
+
+    // Voice Command: "Start [Reminder Name]"
+    if (startRegex.test(command)) {
+        const reminderName = command.match(startRegex)[1];
+        const index = reminders.findIndex((r) => r.name.toLowerCase() === reminderName.toLowerCase());
+        if (index !== -1) {
+            startReminder(index);  // Start once
+        } else {
+            alert(`Reminder "${reminderName}" not found.`);
+        }
+    }
+    // Voice Command: "Loop [Reminder Name]"
+    else if (loopRegex.test(command)) {
+        const reminderName = command.match(loopRegex)[1];
+        const index = reminders.findIndex((r) => r.name.toLowerCase() === reminderName.toLowerCase());
+        if (index !== -1) {
+            startLoop(index);  // Start loop
+        } else {
+            alert(`Reminder "${reminderName}" not found.`);
+        }
+    }
+    // Voice Command: "End Loop [Reminder Name]"
+    else if (endLoopRegex.test(command)) {
+        const reminderName = command.match(endLoopRegex)[1];
+        const index = reminders.findIndex((r) => r.name.toLowerCase() === reminderName.toLowerCase());
+        if (index !== -1) {
+            stopReminder(index);  // Stop loop
+        } else {
+            alert(`Reminder "${reminderName}" not found.`);
+        }
+    }
+    // If command is not recognized
+    else {
+        alert("Command not recognized. Try one of the following phrases:\n\n" +
+              "'Start [name]' to start a one-time reminder,\n" +
+              "'Repeat [name]' to start a repeating reminder,\n" +
+              "'Stop [name]' to stop the loop.");
+    }
+}
+
 
         // Initialize the app
         renderReminders();
