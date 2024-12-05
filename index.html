@@ -186,6 +186,7 @@ function startListening() {
 // Handle speech recognition result
 recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript.toLowerCase();
+    console.log("this was heard", transcript)
     processVoiceCommand(transcript);
 };
         
