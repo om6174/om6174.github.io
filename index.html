@@ -1,61 +1,62 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="TimerApp/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="TimerApp/theme.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work and Rest Timer</title>
+    <style>
+        .time-input {
+            width: 50px;
+            text-align: center;
+        }
+        .time-container {
+            display: flex;
+            justify-content: space-between;
+            width: 240px;
+        }
+        .time-input-container {
+            margin: 10px;
+        }
+    </style>
 </head>
+<body>
 
-<body style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; background-image: url('TimerApp/back.jpg');">
-
-    <div class="card col-lg-6 col-sm-10 col-md-10 h-75 text-center"
-        style="background-color: rgba(25, 25, 25, 0.95); backdrop-filter: blur(2px); border: 20px solid white;border-style: outset; ">
-        <span class="card-header border-bottom" style="opacity: 1; color: aliceblue;">Pomodoro Timer</span>
-        <div class="card-body px-0 mx-0">
-            <div class="container col-12 h-100">
-                <div class="row h-75">
-                    <div id="app" style="opacity: 1; color: aliceblue;" class=" col-6 p-0 m-0 text-center">
-
-                    </div>
-                    <div id="app2" style="opacity: 1; color: aliceblue;" class="col-6 p-0 m-0 text-center">
-
-                    </div>
-                </div>
-                <script src="TimerApp/timer.js" charset="utf-8"></script>
-
-                <div class="row col-12 justify-content-around">
-                    <div class="col-lg-12 col-xl-6">
-                        <span style="color: aliceblue;" class="align-self-center">Work timer:</span>
-                        <input class="col-4 col-xl-6 m-2 mb-3 rounded-bottom" type="text" name="work" id="work"
-                            oninput="userInput(this)"></input>
-                    </div>
-                    <div class="col-lg-12 col-xl-6">
-                        <span style="color: aliceblue;" class="align-self-center"> Rest timer:</span>
-                        <input class="col-4 col-xl-6 m-2 mb-3 ml-0 rounded-top" type="text" name="rest" id="rest"
-                            oninput="userInput(this)"></input>
-                    </div>
-                </div>
-                <script>
-                    document.getElementById('work').value = defaultTime(work.TIME_LIMIT);
-                    document.getElementById('rest').value = defaultTime(rest.TIME_LIMIT);
-                </script>
-                <div class="row h-25">
-                    <button type="button" class="col mx-1 mb-auto align-bottom btn btn-warning"
-                        onclick="resetTimer()">Reset</button>
-                    <button type="button" class="col mx-1 mb-auto align-bottom btn btn-warning"
-                        onclick="activeTimer.pauseTimer()">Pause</button>
-                    <button type="button" class="col mx-1 mb-auto align-bottom btn btn-warning"
-                        onclick="activeTimer.resumeTimer()">Start</button>
-                    <button type="button" class="col mx-1 mb-auto align-bottom btn btn-warning"
-                        onclick="restartTimer()">Restart
-                        timer</button>
-                </div>
-            </div>
-        </div>
+<!-- Work Timer Section -->
+<h3>Work Timer</h3>
+<div class="time-container">
+    <div class="time-input-container">
+        <label for="workHour">Hour</label><br>
+        <input id="workHour" class="time-input" type="number" value="0" min="0" max="23" />
     </div>
-</body>
+    <div class="time-input-container">
+        <label for="workMinute">Minute</label><br>
+        <input id="workMinute" class="time-input" type="number" value="0" min="0" max="59" />
+    </div>
+    <div class="time-input-container">
+        <label for="workSecond">Second</label><br>
+        <input id="workSecond" class="time-input" type="number" value="0" min="0" max="59" />
+    </div>
+</div>
+<button id="startWorkTimer">Start Work Timer</button>
 
+<!-- Rest Timer Section -->
+<h3>Rest Timer</h3>
+<div class="time-container">
+    <div class="time-input-container">
+        <label for="restHour">Hour</label><br>
+        <input id="restHour" class="time-input" type="number" value="0" min="0" max="23" />
+    </div>
+    <div class="time-input-container">
+        <label for="restMinute">Minute</label><br>
+        <input id="restMinute" class="time-input" type="number" value="0" min="0" max="59" />
+    </div>
+    <div class="time-input-container">
+        <label for="restSecond">Second</label><br>
+        <input id="restSecond" class="time-input" type="number" value="0" min="0" max="59" />
+    </div>
+</div>
+<button id="startRestTimer">Start Rest Timer</button>
+
+<script src="timer.js"></script>
+</body>
 </html>
