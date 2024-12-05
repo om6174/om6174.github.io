@@ -3,258 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timers with Notifications</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reminder App</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            flex-direction: column;
-        }
-
-        .timer-container {
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px 0;
-            width: 80%;
-            max-width: 500px;
-        }
-
-        .timer-header {
-            text-align: center;
-            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             color: #333;
+            margin: 0;
+            padding: 20px;
         }
-
-        .timer-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .time-input {
-            width: 50px;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            text-align: center;
-            font-size: 16px;
-            margin: 0 5px;
-        }
-
-        .time-display {
-            font-size: 2rem;
-            font-weight: bold;
+        h1 {
             color: #4CAF50;
-            margin-bottom: 20px;
+            text-align: center;
         }
-
-        .timer-button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            font-size: 16px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .reminder-list {
+            margin-top: 20px;
+        }
+        .reminder {
+            background-color: #fff;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        .timer-button:hover {
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
             background-color: #45a049;
         }
-
-        .timer-button:disabled {
-            background-color: #b5b5b5;
-            cursor: not-allowed;
+        .actions {
+            display: flex;
+            justify-content: space-between;
         }
-
-        .button-container {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .notification-button {
-            background-color: #ff9800;
-        }
-
-        .notification-button:hover {
-            background-color: #e68900;
-        }
-
-        .reset-button {
+        .actions button {
             background-color: #f44336;
         }
-
-        .reset-button:hover {
+        .actions button:hover {
             background-color: #e53935;
         }
-
-        .timer-label {
-            font-weight: bold;
+        #export-btn, #import-btn {
+            width: 48%;
+            background-color: #2196F3;
+        }
+        #export-btn:hover, #import-btn:hover {
+            background-color: #1976D2;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Reminder App</h1>
 
-    <div class="timer-container">
-        <div class="timer-header">
-            <h3>Work Timer</h3>
-            <div class="timer-controls">
-                <input type="number" id="work-hours" class="time-input" min="0" value="0">
-                <input type="number" id="work-minutes" class="time-input" min="0" value="25">
-                <input type="number" id="work-seconds" class="time-input" min="0" value="0">
-            </div>
-            <div class="time-display" id="work-time-display">00:25:00</div>
-            <div class="button-container">
-                <button id="start-work-timer" class="timer-button">Start Work Timer</button>
-                <button id="reset-work-timer" class="timer-button reset-button">Reset Work Timer</button>
-            </div>
-        </div>
-    </div>
+        <!-- Add New Reminder Form -->
+        <div>
+            <h3>Add New Reminder</h3>
+            <label for="reminder-name">Reminder Name:</label>
+            <input type="text" id="reminder-name" placeholder="Enter reminder name" />
+            
+            <label for="timer">Timer (in minutes):</label>
+            <input type="number" id="timer" placeholder="Enter timer in minutes" min="1" />
+            
+            <label for="sound">Select Sound:</label>
+            <select id="sound">
+                <option value="sound1.mp3">Sound 1</option>
+                <option value="sound2.mp3">Sound 2</option>
+                <option value="sound3.mp3">Sound 3</option>
+                <option value="sound4.mp3">Sound 4</option>
+                <option value="sound5.mp3">Sound 5</option>
+                <option value="sound6.mp3">Sound 6</option>
+                <option value="sound7.mp3">Sound 7</option>
+                <option value="sound8.mp3">Sound 8</option>
+                <option value="sound9.mp3">Sound 9</option>
+                <option value="sound10.mp3">Sound 10</option>
+            </select>
 
-    <div class="timer-container">
-        <div class="timer-header">
-            <h3>Rest Timer</h3>
-            <div class="timer-controls">
-                <input type="number" id="rest-hours" class="time-input" min="0" value="0">
-                <input type="number" id="rest-minutes" class="time-input" min="0" value="5">
-                <input type="number" id="rest-seconds" class="time-input" min="0" value="0">
-            </div>
-            <div class="time-display" id="rest-time-display">00:05:00</div>
-            <div class="button-container">
-                <button id="start-rest-timer" class="timer-button">Start Rest Timer</button>
-                <button id="reset-rest-timer" class="timer-button reset-button">Reset Rest Timer</button>
-            </div>
+            <button onclick="addReminder()">Add Reminder</button>
         </div>
+
+        <!-- Reminder List -->
+        <div class="reminder-list" id="reminder-list"></div>
+
+        <!-- Export and Import -->
+        <button id="export-btn" onclick="exportReminders()">Export Reminders</button>
+        <input type="file" id="import-btn" onchange="importReminders(event)" style="display: none;" />
+        <button onclick="document.getElementById('import-btn').click();">Import Reminders</button>
     </div>
 
     <script>
-        let workInterval, restInterval;
+        let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
 
-        // Request notification permission on page load
-        if (Notification.permission !== 'granted') {
-            Notification.requestPermission();
+        // Renders all reminders to the page
+        function renderReminders() {
+            const reminderList = document.getElementById("reminder-list");
+            reminderList.innerHTML = "";  // Clear existing list
+
+            reminders.forEach((reminder, index) => {
+                const reminderDiv = document.createElement("div");
+                reminderDiv.className = "reminder";
+                reminderDiv.innerHTML = `
+                    <h4>${reminder.name}</h4>
+                    <p>Timer: ${reminder.timer} minute(s)</p>
+                    <p>Sound: ${reminder.sound}</p>
+                    <div class="actions">
+                        <button onclick="startTimer(${index})">Start Timer</button>
+                        <button onclick="editReminder(${index})">Edit</button>
+                        <button onclick="deleteReminder(${index})">Delete</button>
+                    </div>
+                `;
+                reminderList.appendChild(reminderDiv);
+            });
         }
 
-        // Start Work Timer
-        document.getElementById('start-work-timer').addEventListener('click', function () {
-            startTimer('work');
-        });
+        // Add a new reminder
+        function addReminder() {
+            const name = document.getElementById("reminder-name").value;
+            const timer = document.getElementById("timer").value;
+            const sound = document.getElementById("sound").value;
 
-        // Start Rest Timer
-        document.getElementById('start-rest-timer').addEventListener('click', function () {
-            startTimer('rest');
-        });
+            if (name && timer) {
+                reminders.push({ name, timer: parseInt(timer), sound });
+                localStorage.setItem("reminders", JSON.stringify(reminders));
+                renderReminders();
 
-        // Reset Work Timer
-        document.getElementById('reset-work-timer').addEventListener('click', function () {
-            resetTimer('work');
-        });
-
-        // Reset Rest Timer
-        document.getElementById('reset-rest-timer').addEventListener('click', function () {
-            resetTimer('rest');
-        });
-
-        // Start Timer Function
-        function startTimer(type) {
-            let hoursInput, minutesInput, secondsInput, displayElement, interval, buttonId, resetButtonId;
-
-            if (type === 'work') {
-                hoursInput = document.getElementById('work-hours').value;
-                minutesInput = document.getElementById('work-minutes').value;
-                secondsInput = document.getElementById('work-seconds').value;
-                displayElement = document.getElementById('work-time-display');
-                interval = workInterval;
-                buttonId = 'start-work-timer';
-                resetButtonId = 'reset-work-timer';
-            } else {
-                hoursInput = document.getElementById('rest-hours').value;
-                minutesInput = document.getElementById('rest-minutes').value;
-                secondsInput = document.getElementById('rest-seconds').value;
-                displayElement = document.getElementById('rest-time-display');
-                interval = restInterval;
-                buttonId = 'start-rest-timer';
-                resetButtonId = 'reset-rest-timer';
-            }
-
-            let totalSeconds = (parseInt(hoursInput) * 3600) + (parseInt(minutesInput) * 60) + parseInt(secondsInput);
-            let timerDisplay;
-
-            interval = setInterval(function () {
-                totalSeconds--;
-                let hours = Math.floor(totalSeconds / 3600);
-                let minutes = Math.floor((totalSeconds % 3600) / 60);
-                let seconds = totalSeconds % 60;
-
-                hours = String(hours).padStart(2, '0');
-                minutes = String(minutes).padStart(2, '0');
-                seconds = String(seconds).padStart(2, '0');
-
-                timerDisplay = `${hours}:${minutes}:${seconds}`;
-                displayElement.innerHTML = timerDisplay;
-
-                if (totalSeconds <= 0) {
-                    clearInterval(interval);
-                    notify(type);
-                }
-            }, 1000);
-
-            // Disable start button, enable reset button
-            document.getElementById(buttonId).disabled = true;
-            document.getElementById(resetButtonId).disabled = false;
-
-            if (type === 'work') {
-                workInterval = interval;
-            } else {
-                restInterval = interval;
+                // Clear inputs
+                document.getElementById("reminder-name").value = "";
+                document.getElementById("timer").value = "";
+                document.getElementById("sound").value = "sound1.mp3";
             }
         }
 
-        // Reset Timer Function
-        function resetTimer(type) {
-            let hoursInput, minutesInput, secondsInput, displayElement, buttonId, resetButtonId;
-
-            if (type === 'work') {
-                hoursInput = 0;
-                minutesInput = 25;
-                secondsInput = 0;
-                displayElement = document.getElementById('work-time-display');
-                buttonId = 'start-work-timer';
-                resetButtonId = 'reset-work-timer';
-            } else {
-                hoursInput = 0;
-                minutesInput = 5;
-                secondsInput = 0;
-                displayElement = document.getElementById('rest-time-display');
-                buttonId = 'start-rest-timer';
-                resetButtonId = 'reset-rest-timer';
-            }
-
-            displayElement.innerHTML = '00:00:00';
-            document.getElementById(buttonId).disabled = false;
-            document.getElementById(resetButtonId).disabled = true;
-
-            // Reset the input fields
-            document.getElementById(type + '-hours').value = hoursInput;
-            document.getElementById(type + '-minutes').value = minutesInput;
-            document.getElementById(type + '-seconds').value = secondsInput;
-        }
-
-        // Notification Function
-        function notify(type) {
-            if (Notification.permission === 'granted') {
-                let notification = new Notification(`${type.charAt(0).toUpperCase() + type.slice(1)} Timer Finished`, {
-                    body: `${type.charAt(0).toUpperCase() + type.slice(1)} timer is up!`,
-                    icon: 'https://via.placeholder.com/50'
+        // Start a reminder timer
+        function startTimer(index) {
+            const reminder = reminders[index];
+            setTimeout(() => {
+                new Notification(reminder.name, {
+                    body: "Time's up!",
+                    icon: "icon.png"
                 });
+                const sound = new Audio('TimerApp/Audio/worktimeup.mp3');
+                sound.play();
+            }, reminder.timer * 60000);  // Convert minutes to milliseconds
+        }
+
+        // Edit a reminder
+        function editReminder(index) {
+            const reminder = reminders[index];
+            const name = prompt("Enter new name:", reminder.name);
+            const timer = prompt("Enter new timer in minutes:", reminder.timer);
+            const sound = prompt("Enter new sound:", reminder.sound);
+
+            if (name && timer && sound) {
+                reminder.name = name;
+                reminder.timer = parseInt(timer);
+                reminder.sound = sound;
+                localStorage.setItem("reminders", JSON.stringify(reminders));
+                renderReminders();
             }
-       
+        }
+
+        // Delete a reminder
+        function deleteReminder(index) {
+            reminders.splice(index, 1);
+            localStorage.setItem("reminders", JSON.stringify(reminders));
+            renderReminders();
+        }
+
+        // Export reminders as JSON
+        function exportReminders() {
+            const blob = new Blob([JSON.stringify(reminders)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "reminders.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Import reminders from a JSON file
+        function importReminders(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                try {
+                    const importedReminders = JSON.parse(e.target.result);
+                    if (Array.isArray(importedReminders)) {
+                        reminders = importedReminders;
+                        localStorage.setItem("reminders", JSON.stringify(reminders));
+                        renderReminders();
+                    } else {
+                        alert("Invalid reminder file.");
+                    }
+                } catch (error) {
+                    alert("Failed to import reminders.");
+                }
+            };
+
+            reader.readAsText(file);
+        }
+
+        // Initialize the app
+        renderReminders();
+    </script>
+</body>
+</html>
