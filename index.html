@@ -302,31 +302,38 @@ function startListening() {
 
 }
 
-           function showCustomModal(title, body) {
-        const modal = document.getElementById('custom-modal');
-        document.getElementById('modal-title').textContent = title;
-        document.getElementById('modal-body').textContent = body;
-        modal.style.display = 'flex';
+         function showCustomModal(title, body) {
+    const modal = document.getElementById('custom-modal');
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-body').textContent = body;
+    modal.style.display = 'flex';
 
-        // Use SpeechSynthesis API to read out the reminder name
-        const utterance = new SpeechSynthesisUtterance(`Don't forget to ${title}`);
+    // Use SpeechSynthesis API to read out the reminder name
+    const utterance = new SpeechSynthesisUtterance(`Don't forget to ${title}`);
 
-// Get available voices
-const voices = speechSynthesis.getVoices();
-console.log(voices)
-// Set the voice to a female voice (if available)
-utterance.voice = voices[0];
+    // Get available voices
+    const voices = speechSynthesis.getVoices();
 
-// Speak the reminder
-        speechSynthesis.speak(utterance);
-        
-        // Close the modal when clicking outside
-        modal.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
+    // Set the voice to Microsoft Ava (if available)
+    const avaVoice = voices.find(voice => voice.name === 'Microsoft Ava Online (Natural) - English (United States)');
+    if (avaVoice) {
+        utterance.voice = avaVoice;
     }
+
+    // Set the speech rate to 90% (default rate is 1.0)
+    utterance.rate = 0.9;
+
+    // Speak the reminder
+    speechSynthesis.speak(utterance);
+    
+    // Close the modal when clicking outside
+    modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+}
+
 
     // Function to close the modal
     function closeModal() {
