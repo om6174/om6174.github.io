@@ -129,13 +129,27 @@
 .end-loop:hover {
     background-color: #7b1fa2;
 }
+/* Default button color (blue) */
+#voiceCommandButton {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth color transition */
+}
 
+/* Button color when listening (violet) */
+#voiceCommandButton.listening {
+    background-color: violet;
+}
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Reminder App</h1>
-        <button onclick="startListening()">Voice Command</button>
+    <button id="voiceCommandButton" onclick="startListening()">Voice Command</button>
     <ul>
         <li><strong>Start [Reminder Name]</strong> – create a one-time reminder.</li>
         <li><strong>Repeat [Reminder Name]</strong> – Start a repeating reminder.</li>
@@ -190,6 +204,8 @@ if (SpeechRecognition) {
     // Handle result after recognition finishes
     recognition.onresult = function (event) {
         const transcript = event.results[0][0].transcript.toLowerCase();
+        transcript = transcript.replace(/\.$/, '');  // Remove the period at the end if present
+
         console.log("This was heard:", transcript);  // Should log the recognized command
         processVoiceCommand(transcript);
     };
@@ -200,8 +216,8 @@ if (SpeechRecognition) {
     };
 
     // Handle when recognition ends
-    recognition.onend = function () {
-        console.log("Voice recognition ended.");
+    recognition.onend = function() {
+        button.classList.remove('listening');
     };
 } else {
     alert("Speech Recognition is not supported in your browser.");
@@ -209,9 +225,18 @@ if (SpeechRecognition) {
 
 // Start listening function
 function startListening() {
+    const button = document.getElementById('voiceCommandButton');
+    
+    // Change the button color to violet when listening starts
+    button.classList.add('listening');
+
+    // Start the voice recognition
     recognition.start();
-    console.log("Listening for commands...");
+
+    // When listening ends, change the button color back to blue
+
 }
+
         
         function requestNotificationPermission() {
     if ("Notification" in window) {
