@@ -172,7 +172,23 @@
     <script>
         let loopIntervals = {}; // To store loop interval IDs by reminder index
         let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
+        // Initialize the SpeechRecognition API
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = "en-US";
+recognition.interimResults = false;
 
+// Start listening for voice commands
+function startListening() {
+    recognition.start();
+    alert("Listening for commands...");
+}
+
+// Handle speech recognition result
+recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase();
+    processVoiceCommand(transcript);
+};
+        
         function requestNotificationPermission() {
     if ("Notification" in window) {
         Notification.requestPermission().then(permission => {
