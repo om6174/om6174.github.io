@@ -203,7 +203,7 @@ if (SpeechRecognition) {
 
     // Handle result after recognition finishes
     recognition.onresult = function (event) {
-        const transcript = event.results[0][0].transcript.toLowerCase();
+        let transcript = event.results[0][0].transcript.toLowerCase();
         transcript = transcript.replace(/\.$/, '');  // Remove the period at the end if present
 
         console.log("This was heard:", transcript);  // Should log the recognized command
@@ -217,6 +217,8 @@ if (SpeechRecognition) {
 
     // Handle when recognition ends
     recognition.onend = function() {
+        const button = document.getElementById('voiceCommandButton');
+
         button.classList.remove('listening');
     };
 } else {
