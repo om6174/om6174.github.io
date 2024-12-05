@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Reminder App</title>
     <style>
+        /* Base Styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -18,9 +19,30 @@
             text-align: center;
         }
         .container {
-            max-width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
             margin: 0 auto;
         }
+
+        .form-container {
+            flex: 1 1 45%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reminder-list-container {
+            flex: 1 1 45%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
         .reminder-list {
             margin-top: 20px;
         }
@@ -31,6 +53,7 @@
             margin: 10px 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         input, select, button {
             padding: 10px;
             font-size: 16px;
@@ -39,187 +62,128 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        
         button {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
+        /* Action Buttons */
         .actions {
             display: flex;
-            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
         }
-        .actions button {
-            background-color: #f44336;
-        }
-        .actions button:hover {
-            background-color: #e53935;
-        }
-        #export-btn, #import-btn {
-            width: 48%;
-            background-color: #2196F3;
-        }
-        #export-btn:hover, #import-btn:hover {
-            background-color: #1976D2;
+        
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
-        .actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
+        .btn:hover {
+            transform: scale(1.05);
+        }
 
-.btn {
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
+        .start { background-color: #4CAF50; color: white; }
+        .start:hover { background-color: #45a049; }
+        
+        .edit { background-color: #2196F3; color: white; }
+        .edit:hover { background-color: #0b7dda; }
+        
+        .delete { background-color: #f44336; color: white; }
+        .delete:hover { background-color: #d32f2f; }
+        
+        .loop { background-color: #ff9800; color: white; }
+        .loop:hover { background-color: #fb8c00; }
+        
+        .end-loop { background-color: #9c27b0; color: white; }
+        .end-loop:hover { background-color: #7b1fa2; }
 
-.btn:hover {
-    transform: scale(1.05);
-}
+        /* Modal Styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px;
+            z-index: 1000;
+        }
 
-.start {
-    background-color: #4CAF50;
-    color: white;
-}
+        .modal-content {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
 
-.start:hover {
-    background-color: #45a049;
-}
-
-.edit {
-    background-color: #2196F3;
-    color: white;
-}
-
-.edit:hover {
-    background-color: #0b7dda;
-}
-
-.delete {
-    background-color: #f44336;
-    color: white;
-}
-
-.delete:hover {
-    background-color: #d32f2f;
-}
-
-.loop {
-    background-color: #ff9800;
-    color: white;
-}
-
-.loop:hover {
-    background-color: #fb8c00;
-}
-
-.end-loop {
-    background-color: #9c27b0;
-    color: white;
-}
-
-.end-loop:hover {
-    background-color: #7b1fa2;
-}
-/* Default button color (blue) */
-#voiceCommandButton {
-    background-color: blue;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth color transition */
-}
-
-/* Button color when listening (violet) */
-#voiceCommandButton.listening {
-    background-color: violet;
-}
-
-            /* Basic modal styling */
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-        display: flex;
-        justify-content: center;
-        align-items: flex-start; /* Align at the top */
-        padding-top: 20px; /* Space from the top */
-        z-index: 1000;
-    }
-
-    .modal-content {
-        background-color: #333;
-        color: white;
-        padding: 20px;
-        border-radius: 5px;
-        width: 80%; /* You can adjust the width of the modal */
-        max-width: 500px;
-        text-align: center;
-    }
-
-    .modal-content h2 {
-        margin-top: 0;
-    }
+        .modal-content h2 {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
     <!-- Modal structure -->
-<div id="custom-modal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <h2 id="modal-title"></h2>
-        <p id="modal-body"></p>
+    <div id="custom-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-body"></p>
+        </div>
     </div>
-</div>
-
 
     <div class="container">
-        <h1>Reminder App</h1>
-    <button id="voiceCommandButton" onclick="startListening()">Voice Command</button>
-    <ul>
-        <li><strong>Start [Reminder Name]</strong> – create a one-time reminder.</li>
-        <li><strong>Repeat [Reminder Name]</strong> – Start a repeating reminder.</li>
+        <div class="form-container">
+            <h1>Reminder App</h1>
+            <button id="voiceCommandButton" onclick="startListening()">Voice Command</button>
+            <ul>
+                <li><strong>Start [Reminder Name]</strong> – create a one-time reminder.</li>
+                <li><strong>Repeat [Reminder Name]</strong> – Start a repeating reminder.</li>
+                <li><strong>Stop [Reminder Name]</strong> – Stop a repeating reminder.</li>
+            </ul>
+            <!-- Add New Reminder Form -->
+            <div>
+                <h3>Add New Reminder</h3>
+                <label for="reminder-name">Reminder Name:</label>
+                <input type="text" id="reminder-name" placeholder="Enter reminder name" />
+                
+                <label for="timer">Timer (in minutes):</label>
+                <input type="number" id="timer" placeholder="Enter timer in minutes" min="1" />
+                
+                <label for="sound">Select Sound:</label>
+                <select id="sound">
+                    <option value="TimerApp/Audio/resttimeup.mp3">Beep</option>
+                    <option value="TimerApp/Audio/worktimeup.mp3">Flute</option>
+                    <option value="TimerApp/Audio/pop.wav">POP</option>
+                </select>
 
-        <li><strong>Stop [Reminder Name]</strong> – Stop a repeating reminder.</li>
-    </ul>
-        <!-- Add New Reminder Form -->
-        <div>
-            <h3>Add New Reminder</h3>
-            <label for="reminder-name">Reminder Name:</label>
-            <input type="text" id="reminder-name" placeholder="Enter reminder name" />
-            
-            <label for="timer">Timer (in minutes):</label>
-            <input type="number" id="timer" placeholder="Enter timer in minutes" min="1" />
-            
-            <label for="sound">Select Sound:</label>
-            <select id="sound">
-                <option value="TimerApp/Audio/resttimeup.mp3">Beep</option>
-                <option value="TimerApp/Audio/worktimeup.mp3">Flute</option>
-                <option value="TimerApp/Audio/pop.wav">POP</option>
-            </select>
-
-            <button onclick="addReminder()">Add Reminder</button>
+                <button onclick="addReminder()">Add Reminder</button>
+            </div>
         </div>
 
-        <!-- Reminder List -->
-        <div class="reminder-list" id="reminder-list"></div>
-
-        <!-- Export and Import -->
-        <button id="export-btn" onclick="exportReminders()">Export Reminders</button>
-        <input type="file" id="import-btn" onchange="importReminders(event)" style="display: none;" />
-        <button onclick="document.getElementById('import-btn').click();">Import Reminders</button>
+        <div class="reminder-list-container">
+            <h3>Reminders List</h3>
+            <div class="reminder-list" id="reminder-list"></div>
+            <button id="export-btn" onclick="exportReminders()">Export Reminders</button>
+            <input type="file" id="import-btn" onchange="importReminders(event)" style="display: none;" />
+            <button onclick="document.getElementById('import-btn').click();">Import Reminders</button>
+        </div>
     </div>
 
     <script>
