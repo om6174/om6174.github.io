@@ -1,6 +1,6 @@
 const FULL_DASH_ARRAY = 283;
-var workEnd = new Audio('Audio/worktimeup.mp3');
-var restEnd = new Audio('Audio/resttimeup.mp3');
+var workEnd = new Audio('TimerApp/Audio/worktimeup.mp3');
+var restEnd = new Audio('TimerApp/Audio/resttimeup.mp3');
 const COLOR_CODES = {
     info: {
         color: "green"
