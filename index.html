@@ -220,7 +220,32 @@
         <input type="file" id="import-btn" onchange="importReminders(event)" style="display: none;" />
         <button onclick="document.getElementById('import-btn').click();">Import Reminders</button>
     </div>
+ <h1>Speech Synthesis Voice Test</h1>
+    <select id="voiceSelect"></select>
+    <button onclick="speak()">Speak</button>
 
+    <script>
+        // Get available voices when the page is loaded
+        let voices = [];
+        speechSynthesis.onvoiceschanged = () => {
+            voices = speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('voiceSelect');
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.value = index;
+                voiceSelect.appendChild(option);
+            });
+        };
+
+        // Function to speak text using the selected voice
+        function speak() {
+            const utterance = new SpeechSynthesisUtterance('This is a test sentence');
+            const selectedVoice = document.getElementById('voiceSelect').value;
+            utterance.voice = voices[selectedVoice];
+            speechSynthesis.speak(utterance);
+        }
+    </script>
     <script>
         let loopIntervals = {}; // To store loop interval IDs by reminder index
         let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
@@ -290,10 +315,10 @@ function startListening() {
 const voices = speechSynthesis.getVoices();
 console.log(voices)
 // Set the voice to a female voice (if available)
-utterance.voice = voices.find(voice => voice.gender === 'female') || voices[0];
+utterance.voice = voices[0];
 
 // Speak the reminder
-        speechSynthesis.speak(utterance);
+        speechSynthesis.speak(`Don't forget to {utterance}`);
         
         // Close the modal when clicking outside
         modal.addEventListener('click', function (event) {
